@@ -7,11 +7,15 @@ function App() {
 
   return (
     <>
-      <Canvas>
+      <Canvas orthographic
+              camera={{
+                zoom: 70,
+              }}
+      >
         <ThreeElement />
         <CameraControls />
         <axesHelper args={[7]} />
-        <gridHelper args={[10, 10, 'red', 'blue']}
+        <gridHelper args={[100,100, 'red']}
                     rotation={[THREE.MathUtils.degToRad(90), 0, 0]}
         />
       </Canvas>
