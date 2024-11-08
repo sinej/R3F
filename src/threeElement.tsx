@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 const ThreeElement = () => {
 
-  const vecA = new THREE.Vector3(5,7,0);
+  const vecA = new THREE.Vector3(2,1,0).multiplyScalar(2);
   const origin = new THREE.Vector3(0,0,0);
   const dis = origin.distanceTo(vecA);
 
