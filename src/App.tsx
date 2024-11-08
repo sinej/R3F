@@ -10,12 +10,13 @@ function App() {
       <Canvas orthographic
               camera={{
                 zoom: 70,
+                position: [0,0,100]
               }}
       >
         <ThreeElement />
         <CameraControls />
-        <axesHelper args={[7]} />
-        <gridHelper args={[100,100, 'red']}
+        {/*<axesHelper args={[7]} />*/}
+        <gridHelper args={[100,100]}
                     rotation={[THREE.MathUtils.degToRad(90), 0, 0]}
         />
       </Canvas>
