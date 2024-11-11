@@ -6,6 +6,10 @@ const ThreeElement = () => {
   const origin = new THREE.Vector3(0,0,0);
   const dis = origin.distanceTo(vecA);
 
+  const vecB = new THREE.Vector3(2,1,0).multiplyScalar(2);
+  const disB = origin.distanceTo(vecB);
+
+
   return (
     <>
       <directionalLight position={[5,5,5]} />
@@ -18,6 +22,21 @@ const ThreeElement = () => {
       </mesh>
       <arrowHelper args={[
         vecA.clone().normalize(),
+        origin,
+        dis,
+        'blue'
+      ]}/>
+
+
+      <mesh
+            position={vecB}
+            rotation={[THREE.MathUtils.degToRad(45), THREE.MathUtils.degToRad(45), 0]}
+      >
+        <sphereGeometry args={[0.5]} />
+        <meshStandardMaterial color="red" />
+      </mesh>
+      <arrowHelper args={[
+        vecB.clone().normalize(),
         origin,
         dis,
         'blue'
