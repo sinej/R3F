@@ -2,12 +2,16 @@ import * as THREE from "three";
 
 const ThreeElement = () => {
 
-  const vecA = new THREE.Vector3(2,1,0).multiplyScalar(2);
   const origin = new THREE.Vector3(0,0,0);
-  const dis = origin.distanceTo(vecA);
 
-  const vecB = new THREE.Vector3(2,1,0).multiplyScalar(2);
-  const disB = origin.distanceTo(vecB);
+  const vecA = new THREE.Vector3(-6,-7,0).multiplyScalar(2);
+  const disVecA = origin.distanceTo(vecA);
+
+  const vecB = new THREE.Vector3(4,3,0).multiplyScalar(2);
+  const disVecB = origin.distanceTo(vecB);
+
+  const vecC = vecB.clone().sub(vecA);
+  const disVecC = origin.distanceTo(vecC);
 
 
   return (
@@ -23,7 +27,7 @@ const ThreeElement = () => {
       <arrowHelper args={[
         vecA.clone().normalize(),
         origin,
-        dis,
+        disVecA,
         'blue'
       ]}/>
 
@@ -38,7 +42,7 @@ const ThreeElement = () => {
       <arrowHelper args={[
         vecB.clone().normalize(),
         origin,
-        dis,
+        disVecB,
         'blue'
       ]}/>
     </>
