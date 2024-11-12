@@ -1,8 +1,8 @@
 import './App.css'
 import { Canvas } from "@react-three/fiber";
-import ThreeElement from "./threeElement";
 import { CameraControls } from "@react-three/drei";
 import * as THREE from "three";
+import BearToElement from "./BearToElement.tsx";
 function App() {
 
   return (
@@ -13,7 +13,8 @@ function App() {
                 position: [0,0,100]
               }}
       >
-        <ThreeElement />
+        {/*<ThreeElement />*/}
+        <BearToElement/>
         <CameraControls />
         {/*<axesHelper args={[7]} />*/}
         <gridHelper args={[100,100]}
