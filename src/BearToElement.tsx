@@ -14,18 +14,22 @@ const BearToElement = () => {
   const honeyVector = new THREE.Vector3(4, 3, 0);
 
   const bearToHoneyVector = honeyVector.clone().sub(bearVector);
+  const disBearToHoneyVector = bearToHoneyVector.distanceTo(new THREE.Vector3(0,0,0));
   const bearToHoneyUnitVector = bearToHoneyVector.clone().normalize();
 
-  const desireMoveDistance = 0.1;
-  const moveVector = bearToHoneyUnitVector.clone().multiplyScalar(desireMoveDistance);
+  // const desireMoveDistance = 0.5;
+  // const moveVector = bearToHoneyUnitVector.clone().multiplyScalar(desireMoveDistance);
 
+  const desireMoveSec = 3;
+  const desireMoveFrame = desireMoveSec * 60;
+  const moveVector2 = bearToHoneyUnitVector.clone().multiplyScalar(disBearToHoneyVector).divideScalar(desireMoveFrame);
 
   useFrame(() => {
     const bearObj = bearRef.current;
 
     if(bearObj) {
-      bearObj.position.x += moveVector.x;
-      bearObj.position.y += moveVector.y;
+      bearObj.position.x += moveVector2.x;
+      bearObj.position.y += moveVector2.y;
     }
   });
 
