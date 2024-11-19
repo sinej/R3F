@@ -4,13 +4,15 @@ import {useRef} from "react";
 
 const MovingSphere = () => {
 
+  const ballARadius = 0.5;
+
   const ballA = useRef<THREE.Mesh>(null);
   const ballB = useRef<THREE.Mesh>(null);
 
-  const ballAX = THREE.MathUtils.randFloat(-5, 5);
-  const ballAY = THREE.MathUtils.randFloat(-5, 5);
-  const ballBX = THREE.MathUtils.randFloat(-5, 5);
-  const ballBY = THREE.MathUtils.randFloat(-5, 5);
+  const ballAX = THREE.MathUtils.randFloat(-4.5, 4.5);
+  const ballAY = THREE.MathUtils.randFloat(-4.5, 4.5);
+  const ballBX = THREE.MathUtils.randFloat(-4.5, 4.5);
+  const ballBY = THREE.MathUtils.randFloat(-4.5, 4.5);
 
   const vecA = new THREE.Vector3(ballAX,ballAY,0);
   const vecB = new THREE.Vector3(ballBX,ballBY,0);
@@ -18,6 +20,7 @@ const MovingSphere = () => {
   const vecAToVecB = new THREE.Vector3();
   vecAToVecB.subVectors(vecB, vecA); // const vecAtoB2 = vecB.clone().sub(vecA); 와 같다.
   vecAToVecB.normalize();
+
 
   const velocity = 0.1
   const dirVector = vecAToVecB.clone();
