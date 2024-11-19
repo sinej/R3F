@@ -5,29 +5,31 @@ import {useRef} from "react";
 const MovingSphere = () => {
 
   const ballARadius = 0.5;
+  const posLimit = 5 - ballARadius;
 
   const ballA = useRef<THREE.Mesh>(null);
-  const ballB = useRef<THREE.Mesh>(null);
 
-  const ballAX = THREE.MathUtils.randFloat(-4.5, 4.5);
-  const ballAY = THREE.MathUtils.randFloat(-4.5, 4.5);
-  const ballBX = THREE.MathUtils.randFloat(-4.5, 4.5);
-  const ballBY = THREE.MathUtils.randFloat(-4.5, 4.5);
+  const ballAX = THREE.MathUtils.randFloat(-posLimit, posLimit);
+  const ballAY = THREE.MathUtils.randFloat(-posLimit, posLimit);
+  const targetX = THREE.MathUtils.randFloat(-posLimit, posLimit);
+  const targetY = THREE.MathUtils.randFloat(-posLimit, posLimit);
 
-  const vecA = new THREE.Vector3(ballAX,ballAY,0);
-  const vecB = new THREE.Vector3(ballBX,ballBY,0);
+  const vecA = new THREE.Vector3(ballAX, ballAY, 0);
+  const targetB = new THREE.Vector3(targetX, targetY, 0);
 
   const vecAToVecB = new THREE.Vector3();
-  vecAToVecB.subVectors(vecB, vecA); // const vecAtoB2 = vecB.clone().sub(vecA); 와 같다.
+  vecAToVecB.subVectors(targetB, vecA); // const vecAtoB2 = vecB.clone().sub(vecA); 와 같다.
   vecAToVecB.normalize();
 
 
-  const velocity = 0.1
+  let velocity = 0.1;
+  const accelation = 0.0001;
+  const velocityLimit = 1;
   const dirVector = vecAToVecB.clone();
-  dirVector.multiplyScalar(velocity);
+  // dirVector.multiplyScalar(velocity);
 
   const box = new THREE.Box3();
-  const center = new THREE.Vector3(0, 0, 0);
+  const center = new THREE.Vector3();
   const size = new THREE.Vector3(10, 10, 0);
   box.setFromCenterAndSize(
     center,
@@ -44,17 +46,23 @@ const MovingSphere = () => {
 
     if(ballA.current) {
       const posA = ballA.current.position;
-      const disBallAAndB = posA.distanceTo(vecB);
 
-
-      if(posA.x < leftBox || posA.x > rightBox) {
+      if((posA.x - ballARadius) < leftBox || (posA.x + ballARadius) > rightBox) {
         dirVector.x = -dirVector.x;
       }
 
-      if(posA.y < bottomBox || posA.y > topBox) {
+      if((posA.y - ballARadius) < bottomBox || (posA.y + ballARadius) > topBox) {
         dirVector.y = -dirVector.y;
       }
-      ballA.current.position.add(dirVector);
+
+      velocity += accelation;
+
+      if (velocity >= velocityLimit) {
+        velocity = velocityLimit;
+      }
+
+      const addPos = dirVector.clone().multiplyScalar(velocity)
+      ballA.current.position.add(addPos);
 
       // top, right, bottom, left 별 멈추는 기능
       // if(posA.x > leftBox && posA.x < rightBox && posA.y < topBox && posA.y > bottomBox) {
@@ -77,13 +85,13 @@ const MovingSphere = () => {
         <sphereGeometry args={[0.5]}/>
         <meshBasicMaterial color="blue"/>
       </mesh>
+      {/* Target 공 */}
+      {/*<mesh ref={ballB} position={vecB}>*/}
+      {/*  <sphereGeometry args={[0.5]}/>*/}
+      {/*  <meshBasicMaterial color="green"/>*/}
+      {/*</mesh>*/}
 
-      <mesh ref={ballB} position={vecB}>
-        <sphereGeometry args={[0.5]}/>
-        <meshBasicMaterial color="green"/>
-      </mesh>
-
-      <box3Helper args={[box, 'red']} />
+      <box3Helper args={[box, 'blue']} />
     </>
   );
 };

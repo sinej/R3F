@@ -19,7 +19,7 @@ function App() {
         <MovingSphere />
         <CameraControls />
         <axesHelper args={[7]} />
-        <gridHelper args={[100,100]}
+        <gridHelper args={[100, 100]}
                     rotation={[THREE.MathUtils.degToRad(90), 0, 0]}
         />
       </Canvas>
