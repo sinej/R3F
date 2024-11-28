@@ -10,13 +10,18 @@ const MovingSpheres = () => {
   const ballA = useRef<THREE.Mesh>(null);
 
   const posVectors: THREE.Vector3[] = [];
+  const ballCount = 10;
 
-  const ballAX = THREE.MathUtils.randFloat(-posLimit, posLimit);
-  const ballAY = THREE.MathUtils.randFloat(-posLimit, posLimit);
+  for(let i = 0; i < ballCount; i++) {
+    const ballAX = THREE.MathUtils.randFloat(-posLimit, posLimit);
+    const ballAY = THREE.MathUtils.randFloat(-posLimit, posLimit);
+    const posVector = new THREE.Vector3(ballAX, ballAY, 0);
+    posVectors.push(posVector);
+  }
+
   const targetX = THREE.MathUtils.randFloat(-posLimit, posLimit);
   const targetY = THREE.MathUtils.randFloat(-posLimit, posLimit);
 
-  const vecA = new THREE.Vector3(ballAX, ballAY, 0);
   const targetB = new THREE.Vector3(targetX, targetY, 0);
 
   const vecAToVecB = new THREE.Vector3();
