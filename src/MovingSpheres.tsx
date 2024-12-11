@@ -1,11 +1,22 @@
 import * as THREE from "three";
 import {useRef} from "react";
-import {useFrame} from "@react-three/fiber";
+import {useFrame, useThree} from "@react-three/fiber";
+
+function makeRandomColor() {
+  const r = THREE.MathUtils.randInt(0, 255);
+  const g = THREE.MathUtils.randInt(0, 255);
+  const b = THREE.MathUtils.randInt(0, 255);
+
+  return `rgb(${r}, ${g}, ${b})`;
+
+}
 
 const MovingSpheres = () => {
 
-  const ballARadius = 0.1;
-  const posLimit = 5 - ballARadius;
+  const { viewport } = useThree();
+  const ballARadius = 0.4;
+  const posLimitX = viewport.width * 0.5 - ballARadius;
+  const posLimitY = viewport.height * 0.5 - ballARadius;
 
   const groupRef = useRef<THREE.Group>(null);
 
@@ -14,21 +25,21 @@ const MovingSpheres = () => {
   const ballToTargetVectors:THREE.Vector3[] = [];
   const velocityArr:number[] = [];
   const accelationArr:number[] = [];
-  const ballCount = 20;
+  const ballCount = 50;
 
   let velocity = 0.1;
   const velocityLimit = 1;
 
   for(let i = 0; i < ballCount; i++) {
     // Ball
-    const ballAX = THREE.MathUtils.randFloat(-posLimit, posLimit);
-    const ballAY = THREE.MathUtils.randFloat(-posLimit, posLimit);
+    const ballAX = THREE.MathUtils.randFloat(-posLimitX, posLimitX);
+    const ballAY = THREE.MathUtils.randFloat(-posLimitY, posLimitY);
     const posVector = new THREE.Vector3(ballAX, ballAY, 0);
     posVectors.push(posVector);
 
     // Target
-    const targetX = THREE.MathUtils.randFloat(-posLimit, posLimit);
-    const targetY = THREE.MathUtils.randFloat(-posLimit, posLimit);
+    const targetX = THREE.MathUtils.randFloat(-posLimitX, posLimitX);
+    const targetY = THREE.MathUtils.randFloat(-posLimitY, posLimitY);
     const targetVector = new THREE.Vector3(targetX, targetY, 0);
     targetVectors.push(targetVector);
 
@@ -43,9 +54,14 @@ const MovingSpheres = () => {
     accelationArr.push(accelation);
   }
 
+
   const box = new THREE.Box3();
   const center = new THREE.Vector3();
-  const size = new THREE.Vector3(10, 10, 0);
+  const size = new THREE.Vector3(
+    viewport.width,
+    viewport.height,
+    0
+  );
   box.setFromCenterAndSize(
     center,
     size,
@@ -65,6 +81,16 @@ const MovingSpheres = () => {
     }
   }
 
+  function update(pos: THREE.Vector3, target:THREE.Vector3, idx: number) {
+    velocityArr[idx] += accelationArr[idx];
+    if(velocityArr[idx] >= velocityLimit) {
+      velocityArr[idx] = velocityLimit;
+    }
+
+    const addPos = target.clone().multiplyScalar(velocityArr[idx]);
+    pos.add(addPos);
+  }
+
   useFrame(() => {
     const group = groupRef.current;
     if(group && group.children.length) {
@@ -73,15 +99,8 @@ const MovingSpheres = () => {
         const target = ballToTargetVectors[index];
 
         checkEdge(pos, target);
-
-        velocityArr[index] += accelationArr[index];
-
-        if (velocityArr[index] >= velocityLimit) {
-          velocityArr[index] = velocityLimit;
-        }
-        const addPos = target.clone().multiplyScalar(velocityArr[index])
-        pos.add(addPos);
-      })
+        update(pos, target, index);
+      });
     }
   })
 
@@ -91,11 +110,13 @@ const MovingSpheres = () => {
         {/* 여러개 */}
         {
           posVectors.length > 0 ?
-            posVectors.map((posVector) =>
+            posVectors.map((posVector: THREE.Vector3, index: number) =>
               <>
-                <mesh position={posVector}>
+                <mesh position={posVector}
+                      key={`mesh-${index}`}
+                >
                   <sphereGeometry args={[ballARadius]} />
-                  <meshBasicMaterial color="blue"/>
+                  <meshBasicMaterial color={makeRandomColor()} />
                 </mesh>
               </>
             )
