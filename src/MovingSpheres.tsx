@@ -91,6 +91,15 @@ const MovingSpheres = () => {
     pos.add(addPos);
   }
 
+  function checkCollision() {
+    const group = groupRef.current;
+    if(group && group.children.length) {
+      group.children.forEach((mesh:THREE.Object3D, index: number) => {
+        
+      });
+    }
+  }
+
   useFrame(() => {
     const group = groupRef.current;
     if(group && group.children.length) {
@@ -100,6 +109,7 @@ const MovingSpheres = () => {
 
         checkEdge(pos, target);
         update(pos, target, index);
+        checkCollision();
       });
     }
   })
