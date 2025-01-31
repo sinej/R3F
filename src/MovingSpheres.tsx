@@ -135,12 +135,12 @@ const MovingSpheres = () => {
       </group>
 
       {/* Target 공 */}
-      <mesh ref={ballB} position={vecB}>
-        <sphereGeometry args={[0.5]}/>
-        <meshBasicMaterial color="green"/>
-      </mesh>
+      {/*<mesh ref={ballB} position={vecB}>*/}
+      {/*  <sphereGeometry args={[0.5]}/>*/}
+      {/*  <meshBasicMaterial color="green"/>*/}
+      {/*</mesh>*/}
 
-      <box3Helper args={[box, 'blue']} />
+      {/*<box3Helper args={[box, 'blue']} />*/}
     </>
   );
 };
