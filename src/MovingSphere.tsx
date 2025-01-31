@@ -21,7 +21,6 @@ const MovingSphere = () => {
   vecAToVecB.subVectors(targetB, vecA); // const vecAtoB2 = vecB.clone().sub(vecA); 와 같다.
   vecAToVecB.normalize();
 
-
   let velocity = 0.1;
   const accelation = 0.0001;
   const velocityLimit = 1;
