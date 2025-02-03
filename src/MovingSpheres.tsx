@@ -14,9 +14,9 @@ function makeRandomColor() {
 const MovingSpheres = () => {
 
   const { viewport } = useThree();
-  const ballARadius = 0.4;
-  const posLimitX = viewport.width * 0.5 - ballARadius;
-  const posLimitY = viewport.height * 0.5 - ballARadius;
+  const ballRadius = 0.4;
+  const posLimitX = viewport.width * 0.5 - ballRadius;
+  const posLimitY = viewport.height * 0.5 - ballRadius;
 
   const groupRef = useRef<THREE.Group>(null);
 
@@ -73,10 +73,10 @@ const MovingSpheres = () => {
   const bottomBox = center.y - size.y * 0.5;
 
   function checkEdge(pos: THREE.Vector3, dirVector: THREE.Vector3) {
-    if ((pos.x - ballARadius) < leftBox || (pos.x + ballARadius) > rightBox) {
+    if ((pos.x - ballRadius) < leftBox || (pos.x + ballRadius) > rightBox) {
       dirVector.x = -dirVector.x;
     }
-    if ((pos.y - ballARadius < bottomBox) || (pos.y + ballARadius) > topBox) {
+    if ((pos.y - ballRadius < bottomBox) || (pos.y + ballRadius) > topBox) {
       dirVector.y = -dirVector.y;
     }
   }
@@ -91,11 +91,17 @@ const MovingSpheres = () => {
     pos.add(addPos);
   }
 
-  function checkCollision() {
+  function checkCollision(crntIdx: number, crntMesh: THREE.Mesh, target: THREE.Vector3) {
     const group = groupRef.current;
     if(group && group.children.length) {
       group.children.forEach((mesh:THREE.Object3D, index: number) => {
-
+        const dis = crntMesh.position.distanceTo(mesh.position);
+        if(crntIdx !== index) {
+          if(dis < ballRadius * 2) {
+            const mat = crntMesh.material as THREE.MeshBasicMaterial;
+            mat.color = new THREE.Color('red');
+          }
+        }
       });
     }
   }
@@ -125,7 +131,7 @@ const MovingSpheres = () => {
                 <mesh position={posVector}
                       key={`mesh-${index}`}
                 >
-                  <sphereGeometry args={[ballARadius]} />
+                  <sphereGeometry args={[ballRadius]} />
                   <meshBasicMaterial color={makeRandomColor()} />
                 </mesh>
               </>
