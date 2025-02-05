@@ -91,7 +91,7 @@ const MovingSpheres = () => {
     pos.add(addPos);
   }
 
-  function checkCollision(crntIdx: number, crntMesh: THREE.Mesh, target: THREE.Vector3) {
+  function checkCollision(crntIdx: number, crntMesh: THREE.Mesh, crntDir: THREE.Vector3) {
     const group = groupRef.current;
     if(group && group.children.length) {
       group.children.forEach((mesh:THREE.Object3D, index: number) => {
@@ -100,6 +100,9 @@ const MovingSpheres = () => {
           if(dis < ballRadius * 2) {
             const mat = crntMesh.material as THREE.MeshBasicMaterial;
             mat.color = new THREE.Color('red');
+
+            crntDir.x = -crntDir.x;
+            crntDir.y = -crntDir.y;
           }
         }
       });
@@ -146,7 +149,7 @@ const MovingSpheres = () => {
       {/*  <meshBasicMaterial color="green"/>*/}
       {/*</mesh>*/}
 
-      {/*<box3Helper args={[box, 'blue']} />*/}
+      <box3Helper args={[box, 'blue']} />
     </>
   );
 };
