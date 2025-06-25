@@ -25,7 +25,7 @@ function BackgroundPlane() {
   return (
     <mesh position={[0, yOffset, 0]}>
       <planeGeometry args={[width, width * aspect]}/>
-      <meshBasicMaterial map={texture} opacity={1} transparent/>
+      <meshBasicMaterial map={texture} opacity={1} />
     </mesh>
   );
 }
@@ -41,7 +41,8 @@ export default function App() {
         <pointLight position={[0, 0, 5]} intensity={1.5} />
         <spotLight position={[0, 5, 5]} angle={0.3} penumbra={1} intensity={2} />
 
-        <Environment preset="apartment" />
+        <Environment preset="apartment" background={false} />
+
 
         <Suspense fallback={null}>
           <ScrollControls pages={10} damping={0.2}>

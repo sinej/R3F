@@ -17,17 +17,18 @@ export default function Model({ position = [0, 1, 2] }) {
         !mesh.name.toLowerCase().includes('logo')
       ) {
         mesh.material = new THREE.MeshPhysicalMaterial({
-          transmission: 1.0,
+          color: new THREE.Color(1, 0, 0), // pure red
+          transmission: 1.0,               // 유리처럼 투명
           transparent: true,
-          opacity: 1.0,
+          opacity: 1.0,                    // transmission과 함께는 무조건 1.0
           roughness: 0.1,
           metalness: 0.0,
-          thickness: 1.5,
+          thickness: 1.5,                  // 빛이 안쪽을 통과하도록
           ior: 1.5,
-          color: new THREE.Color(1, 0, 0),
-          envMapIntensity: 1.0,
-        })
-      } else {
+          envMapIntensity: 1.5,
+        });
+      }
+      else {
         mesh.material = new THREE.MeshStandardMaterial({
           color: new THREE.Color('white'),
           roughness: 0.5,
