@@ -1,11 +1,10 @@
-import './App.css'
+import { Canvas } from '@react-three/fiber';
+import ThreeElement from "./ThreeElement.tsx";
 
-function App() {
-
+export default function App() {
   return (
-    <>
-    </>
-  )
+    <Canvas shadows camera={{position: [0, 0, 20], fov: 45}}>
+      <ThreeElement />
+    </Canvas>
+  );
 }
-
-export default App
