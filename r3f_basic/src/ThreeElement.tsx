@@ -1,17 +1,14 @@
-import * as THREE from "three";
-import Model from "./Model.tsx";
-import {Scroll, ScrollControls} from "@react-three/drei";
+import {useThree} from '@react-three/fiber';
+import * as THREE from 'three';
 
 function ThreeElement() {
+  const { size } = useThree();
+  console.log("size", size);
+
   return (
     <>
       <directionalLight position={[5, 5, 5]}/>
-        <ScrollControls pages={3} damping={0.25}>
-
-        <Scroll>
-          <Model />
-        </Scroll>
-        </ScrollControls>
+      <mesh rotation={[THREE.MathUtils.degToRad(0), THREE.MathUtils.degToRad(0), 0]}>
         <boxGeometry/>
         <meshStandardMaterial color={'blue'}/>
       </mesh>
