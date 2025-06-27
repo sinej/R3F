@@ -3,7 +3,13 @@ import ThreeElement from "./ThreeElement.tsx";
 
 export default function App() {
   return (
-    <Canvas shadows camera={{position: [0, 0, 20], fov: 45}}>
+    <Canvas camera={{
+              near: 1,
+              far: 20,
+              fov: 75,
+              position: [5, 5, 0]
+            }}
+    >
       <ThreeElement />
     </Canvas>
   );

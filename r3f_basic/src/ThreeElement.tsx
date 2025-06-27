@@ -25,7 +25,7 @@ function ThreeElement() {
             ref={boxRef}
       >
         <boxGeometry/>
-        <meshStandardMaterial color={'blue'}/>
+        <meshStandardMaterial color={'blue'} />
       </mesh>
     </>
   );
